@@ -1348,6 +1348,7 @@ int Solution::maxArea(vector<int> &height) {
     return ans;
 }
 
+// LC 438
 vector<int> Solution::findAnagrams(string s, string p) {
     int lens = s.size(), lenp = p.size();
     vector<int>count(26);
@@ -1375,6 +1376,7 @@ vector<int> Solution::findAnagrams(string s, string p) {
     return ans;
 }
 
+// LC 11
 int Solution::numSubarrayProductLessThanK(vector<int> &nums, int k) {
     if(k <= 1) {
         return 0;
@@ -1393,6 +1395,7 @@ int Solution::numSubarrayProductLessThanK(vector<int> &nums, int k) {
     return ans;
 }
 
+// LC 209
 int Solution::minSubArrayLen(int target, vector<int> &nums) {
     int i = 0;
     int maxLen = 0x7fffffff;
@@ -1412,6 +1415,7 @@ int Solution::minSubArrayLen(int target, vector<int> &nums) {
     return maxLen;
 }
 
+// LC 200
 int Solution::numIslands(vector<vector<char>> &grid) {
     int m = grid.size(), n = grid[0].size(), count = 0;
     vector<vector<int>> arrived(m, vector<int>(n));
@@ -1445,6 +1449,7 @@ int Solution::numIslands(vector<vector<char>> &grid) {
     return count;
 }
 
+// LC 547
 int Solution::findCircleNum(vector<vector<int>> &isConnected) {
     int citynum = isConnected.size(), count = 0;
     queue<int> q;
@@ -1470,10 +1475,12 @@ int Solution::findCircleNum(vector<vector<int>> &isConnected) {
     return count;
 }
 
+// LC 209
 int Solution::countMaxOrSubsets(vector<int> &nums) {
     return 0;
 }
 
+// LC 9
 bool Solution::isPalindrome(int x) {
     if (x < 0 || (x % 10 == 0 && x != 0)) {
         return false;
@@ -1487,6 +1494,7 @@ bool Solution::isPalindrome(int x) {
     return x == revertedNumber || x == revertedNumber / 10;
 }
 
+// LC 78
 vector<vector<int>> ans_subsets;
 vector<int> temp_subsets;
 
