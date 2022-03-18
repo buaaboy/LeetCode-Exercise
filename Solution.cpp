@@ -14,6 +14,7 @@ using namespace std;
 
 int DEBUG = 0;
 
+// LC 1
 vector<int> Solution::twoSum(vector<int> &nums, int target) {
     int n = nums.size();
     for (int i = 0; i < n; ++i) {
@@ -82,6 +83,7 @@ void Solution::rotate(vector<int> &nums, int k) {
     reverse(nums.begin() + k % n + 1, nums.end());
 }
 
+// LC 917
 string Solution::reverseOnlyLetters(string s) {
     int len = s.size();
     for (int i = 0, j = len - 1; i <= j;) {
@@ -911,6 +913,7 @@ int Solution::nthUglyNumber2(int n) {
     return dp[n];
 }
 
+// LC 96
 int Solution::numTrees(int n) {
     // [1...i-1] [i] [i+1...n]
     vector<int> dp(n+1);
@@ -924,6 +927,7 @@ int Solution::numTrees(int n) {
     return dp[n];
 }
 
+// LC 119
 vector<int> Solution::getRow(int rowIndex) {
     vector<int> row(rowIndex + 1);
     row[0] = 1;
@@ -933,6 +937,7 @@ vector<int> Solution::getRow(int rowIndex) {
     return row;
 }
 
+// LC 931
 int Solution::minFallingPathSum(vector<vector<int>> &matrix) {
     int n = matrix.size();
     vector<vector<int>> dp(n, vector<int>(n));
@@ -1348,7 +1353,6 @@ int Solution::maxArea(vector<int> &height) {
     return ans;
 }
 
-// LC 438
 vector<int> Solution::findAnagrams(string s, string p) {
     int lens = s.size(), lenp = p.size();
     vector<int>count(26);
@@ -1376,7 +1380,6 @@ vector<int> Solution::findAnagrams(string s, string p) {
     return ans;
 }
 
-// LC 11
 int Solution::numSubarrayProductLessThanK(vector<int> &nums, int k) {
     if(k <= 1) {
         return 0;
@@ -1395,7 +1398,6 @@ int Solution::numSubarrayProductLessThanK(vector<int> &nums, int k) {
     return ans;
 }
 
-// LC 209
 int Solution::minSubArrayLen(int target, vector<int> &nums) {
     int i = 0;
     int maxLen = 0x7fffffff;
@@ -1415,7 +1417,6 @@ int Solution::minSubArrayLen(int target, vector<int> &nums) {
     return maxLen;
 }
 
-// LC 200
 int Solution::numIslands(vector<vector<char>> &grid) {
     int m = grid.size(), n = grid[0].size(), count = 0;
     vector<vector<int>> arrived(m, vector<int>(n));
@@ -1449,7 +1450,6 @@ int Solution::numIslands(vector<vector<char>> &grid) {
     return count;
 }
 
-// LC 547
 int Solution::findCircleNum(vector<vector<int>> &isConnected) {
     int citynum = isConnected.size(), count = 0;
     queue<int> q;
@@ -1475,12 +1475,10 @@ int Solution::findCircleNum(vector<vector<int>> &isConnected) {
     return count;
 }
 
-// LC 209
 int Solution::countMaxOrSubsets(vector<int> &nums) {
     return 0;
 }
 
-// LC 9
 bool Solution::isPalindrome(int x) {
     if (x < 0 || (x % 10 == 0 && x != 0)) {
         return false;
@@ -1494,7 +1492,6 @@ bool Solution::isPalindrome(int x) {
     return x == revertedNumber || x == revertedNumber / 10;
 }
 
-// LC 78
 vector<vector<int>> ans_subsets;
 vector<int> temp_subsets;
 
@@ -1513,4 +1510,85 @@ vector<vector<int>> Solution::subsets(vector<int> &nums) {
     int n = nums.size();
     dfs_subsets(0, n, nums);
     return ans_subsets;
+}
+
+bool compare_longestWord(string stra, string strb) {
+    return stra.size() < strb.size() || (stra.size() == strb.size() && (stra < strb));
+}
+
+string Solution::longestWord(vector<string> &words) {
+    sort(words.begin(), words.end(), compare_longestWord);
+    int n = words.size();
+    unordered_set<string> strSet(n);
+    strSet.insert("");
+    string maxStr = "";
+    int maxLen = 0;
+    for (int i = 0; i < n; ++i) {
+        int l = words[i].size();
+        if (strSet.find(words[i].substr(0, l-1)) != strSet.end()) { // found
+            strSet.insert(words[i]);
+            if (l > maxLen) {
+                maxLen = l;
+                maxStr = words[i];
+            }
+        }
+    }
+    return maxStr;
+}
+
+int Solution::shortestPathBinaryMatrix(vector<vector<int>> &grid) {
+    if(grid[0][0]==1)return -1;
+    int n=grid.size(),ans=1;
+    const int dire[8][2]={{1,0},{-1,0},{0,1},{0,-1},{1,1},{1,-1},{-1,-1},{-1,1}};
+    queue<pair<int,int> > q;
+    q.emplace(0,0);         //从0,0开始
+    grid[0][0]=1;           //标记为1代表走过
+    while(!q.empty()){      //bfs
+        int m=q.size();
+        while(m--){
+            auto [x,y]=q.front();
+            q.pop();
+            if(x==n-1&&y==n-1)return ans;
+            for(int i=0;i<8;i++){                       //遍历八个方向的
+                int nx=x+dire[i][0];
+                int ny=y+dire[i][1];
+                if(nx<0||ny<0||nx>=n||ny>=n)continue;   //判断是否越界
+                if(grid[nx][ny]==0){        //判断是否能走
+                    q.emplace(nx,ny);
+                    grid[nx][ny]=1;         //标记
+                }
+            }
+        }
+        ans++;          //记录循环次数
+    }
+    return -1;
+}
+
+vector<vector<int>> ans_subsetsWithDup;
+vector<int> temp_subsetsWithDup;
+
+void dfs_subsetsWithDup(int pre, int layer, vector<int> &nums) {
+    if (layer == nums.size()) {
+        ans_subsetsWithDup.push_back(temp_subsetsWithDup);
+        return;
+    }
+
+    // not choose
+    dfs_subsetsWithDup(0, layer+1, nums);
+
+    if (pre == 0 && layer > 0 && nums[layer] == nums[layer - 1]) {
+        return;
+    }
+    // choose
+    temp_subsetsWithDup.push_back(nums[layer]);
+    dfs_subsetsWithDup(1, layer+1, nums);
+    temp_subsetsWithDup.pop_back();
+}
+
+
+vector<vector<int>> Solution::subsetsWithDup(vector<int> &nums) {
+    sort(nums.begin(), nums.end());
+    dfs_subsetsWithDup(0, 0, nums);
+
+    return ans_subsetsWithDup;
 }

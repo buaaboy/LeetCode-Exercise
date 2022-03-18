@@ -154,6 +154,12 @@ public:
     bool isPalindrome(int x); // LeetCode 9
 
     vector<vector<int>> subsets(vector<int>& nums); // LeetCode 78
+
+    string longestWord(vector<string>& words); // LeetCode 720
+
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid); // LeetCode 1091
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums); // LeetCode 90
 };
 
 
