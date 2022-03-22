@@ -1592,3 +1592,84 @@ vector<vector<int>> Solution::subsetsWithDup(vector<int> &nums) {
 
     return ans_subsetsWithDup;
 }
+
+void Solution::solve(vector<vector<char>> &board) {
+    int m = board.size(), n = board[0].size();
+    vector<int> dirx = {1,-1,0,0};
+    vector<int> diry = {0,0,1,-1};
+    queue<pair<int, int>> temp;
+    vector<vector<int>> arrive(m, vector<int>(n));
+    vector<pair<int, int>> toSolve;
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (board[i][j] == 'X' || arrive[i][j]) {
+            } else {
+                while(!temp.empty()) temp.pop();
+                toSolve.clear();
+                temp.emplace(i,j);
+                arrive[i][j] = 1;
+                int flag = 0;
+                while(!temp.empty()) {
+                    int x = temp.front().first;
+                    int y = temp.front().second;
+                    toSolve.emplace_back(x, y);
+                    temp.pop();
+                    if (x == m-1 || x == 0 || y == 0 || y == n-1) {
+                        flag = 1;
+                    }
+                    for (int k = 0; k < 4; ++k) {
+                        int x0 = x + dirx[k];
+                        int y0 = y + diry[k];
+                        if (x0 == m || x0 < 0 || y0 < 0 || y0 == n || arrive[x0][y0] || board[x0][y0] == 'X') {
+                            continue;
+                        }
+                        arrive[x0][y0] = 1;
+                        temp.emplace(x0, y0);
+                    }
+                }
+                if (flag == 0) {
+                    for (int k = 0; k < toSolve.size(); ++k) {
+                        board[toSolve[k].first][toSolve[k].second] = 'X';
+                    }
+                }
+            }
+        }
+    }
+}
+
+vector<vector<int>> ans_permuteUnique;
+vector<int> temp_permuteUnique;
+
+void dfs_permuteUnique(int layer, vector<int> &nums, vector<int> &mark) {
+    int n = nums.size();
+    if (layer == n) {
+        ans_permuteUnique.emplace_back(temp_permuteUnique);
+        return;
+    }
+    for (int i = 0; i < n; ++i) {
+        if (mark[i] == 0) {
+            temp_permuteUnique.emplace_back(nums[i]);
+            mark[i] = 1;
+            if (i == 0 || !(nums[i] == nums[i-1] && mark[i-1] == 1)) {
+                dfs_permuteUnique(layer+1, nums, mark);
+            }
+
+            mark[i] = 0;
+            temp_permuteUnique.pop_back();
+        }
+    }
+}
+
+vector<vector<int>> Solution::permuteUnique(vector<int> &nums) {
+    sort(nums.begin(), nums.end());
+    vector<int> mark(nums.size());
+    dfs_permuteUnique(0, nums, mark);
+//    for (int i = 0; i < ans_permuteUnique.size(); ++i) {
+//        for (int j = 0; j < ans_permuteUnique[0].size(); ++j) {
+//            cout << ans_permuteUnique[i][j] << " ";
+//        }
+//        cout << endl;
+//    }
+    return ans_permuteUnique;
+}
+

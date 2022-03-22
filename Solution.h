@@ -160,6 +160,10 @@ public:
     int shortestPathBinaryMatrix(vector<vector<int>>& grid); // LeetCode 1091
 
     vector<vector<int>> subsetsWithDup(vector<int>& nums); // LeetCode 90
+
+    void solve(vector<vector<char>>& board); // LeetCode 130
+
+    vector<vector<int>> permuteUnique(vector<int>& nums); // LeetCode 47
 };
 
 
