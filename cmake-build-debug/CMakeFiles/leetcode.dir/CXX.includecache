@@ -6,25 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/Users/boy/CLionProjects/leetcode/Solution.cpp
+/Users/boy/CLionProjects/leetcode/Solution.h
+vector
+-
+
+/Users/boy/CLionProjects/leetcode/main.cpp
 iostream
 -
-queue
--
-Solution.h
-/Users/boy/CLionProjects/leetcode/Solution.h
-vector
-/Users/boy/CLionProjects/leetcode/vector
+algorithm
+/Users/boy/CLionProjects/leetcode/algorithm
 string
 /Users/boy/CLionProjects/leetcode/string
-map
-/Users/boy/CLionProjects/leetcode/map
-unordered_set
-/Users/boy/CLionProjects/leetcode/unordered_set
-set
-/Users/boy/CLionProjects/leetcode/set
-
+sstream
+/Users/boy/CLionProjects/leetcode/sstream
+Solution.h
 /Users/boy/CLionProjects/leetcode/Solution.h
-vector
--
 

@@ -11,9 +11,9 @@ int main() {
     Solution solution;
     solution.testhello();
     vector<int>obj {1,2,2};
-    vector<vector<char>>obj2{{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
+    vector<vector<int>>obj2{{1,2},{3},{3},{}};
 
-    cout << solution.permuteUnique(obj)[0][0] << endl;
+    cout << solution.allPathsSourceTarget(obj2)[0][0] << endl;
     return 0;
 }
 

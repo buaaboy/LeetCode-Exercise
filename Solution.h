@@ -164,6 +164,12 @@ public:
     void solve(vector<vector<char>>& board); // LeetCode 130
 
     vector<vector<int>> permuteUnique(vector<int>& nums); // LeetCode 47
+
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph); // LeetCode 797
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target); // LeetCode 39
+
+    int findKthNumber(int n, int k); // LeetCode 440
 };
 
 

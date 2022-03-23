@@ -1673,3 +1673,99 @@ vector<vector<int>> Solution::permuteUnique(vector<int> &nums) {
     return ans_permuteUnique;
 }
 
+vector<vector<int>> ans_allPathSourceTarget;
+vector<int> temp_allPathSourceTarget;
+
+void dfs_allPathSourceTarget(int layer, int point, vector<vector<int>> &graph, vector<int> &visited) {
+    int n = graph.size();
+    if (visited[n-1]) {
+        ans_allPathSourceTarget.emplace_back(temp_allPathSourceTarget);
+        return;
+    }
+    if (layer == n) {
+        return;
+    }
+    vector<int> able = graph[point];
+    for(int num: able) {
+        if (!visited[num]) {
+            visited[num] = 1;
+            temp_allPathSourceTarget.emplace_back(num);
+            dfs_allPathSourceTarget(layer+1, num, graph, visited);
+            temp_allPathSourceTarget.pop_back();
+            visited[num] = 0;
+        }
+    }
+}
+
+vector<vector<int>> Solution::allPathsSourceTarget(vector<vector<int>> &graph) {
+    int n = graph.size();
+    vector<int> visited(n);
+    visited[0] = 1;
+    temp_allPathSourceTarget.emplace_back(0);
+    dfs_allPathSourceTarget(0, 0, graph, visited);
+//    for (int i = 0; i < ans_allPathSourceTarget.size(); ++i) {
+//        for (int j = 0; j < ans_allPathSourceTarget[i].size(); ++j) {
+//            cout << ans_allPathSourceTarget[i][j] << " ";
+//        }
+//        cout << endl;
+//    }
+    return ans_allPathSourceTarget;
+}
+
+vector<vector<int>> ans_combinationSum;
+vector<int> temp_combinationSum;
+
+void dfs_combinationSum(int cur, int target, vector<int> &candidates, int index) {
+    if (cur > target) {
+        return;
+    }
+    if (cur == target) {
+        ans_combinationSum.emplace_back(temp_combinationSum);
+        return;
+    }
+    if (index == candidates.size()) {
+        return;
+    }
+    int c = candidates[index];
+    // use
+    temp_combinationSum.emplace_back(c);
+    dfs_combinationSum(cur+c, target, candidates, index);
+    temp_combinationSum.pop_back();
+
+    dfs_combinationSum(cur, target, candidates, index+1);
+}
+
+vector<vector<int>> Solution::combinationSum(vector<int> &candidates, int target) {
+    dfs_combinationSum(0, target, candidates,0);
+    return ans_combinationSum;
+}
+
+int getStep_findKth(int cur, long n) {
+    // cur is the current father node, n is the max number
+    // include the father node
+    long step = 0;
+    long first = cur;
+    long last = cur;
+    while(first <= n) {
+        step += min(n, last) - first + 1;
+        first = first * 10;
+        last = last * 10 + 9;
+    }
+    return step;
+}
+
+int Solution::findKthNumber(int n, int k) {
+    int cur = 1;
+    while(k > 1) {
+        int step = getStep_findKth(cur, n);
+        if (k > step) {
+            cur += 1;
+            k -= step;
+        } else {
+            cur *= 10;
+            k--;
+        }
+    }
+    return cur;
+}
+
