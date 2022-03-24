@@ -1769,3 +1769,72 @@ int Solution::findKthNumber(int n, int k) {
     return cur;
 }
 
+vector<vector<int>> ans_combinationSum2;
+vector<int> temp_combinationSum2;
+
+void dfs_combinationSum2(vector<int> &candidates, int target, int index, int cur, vector<int> &mark) {
+    int n = candidates.size();
+    if (cur > target) {
+        return;
+    }
+    if (cur == target) {
+        ans_combinationSum2.emplace_back(temp_combinationSum2);
+        return;
+    }
+    if (index == n) {
+        return;
+    }
+
+    if (index == 0 || !(mark[index-1] == 0 && candidates[index] == candidates[index-1])) {
+        temp_combinationSum2.emplace_back(candidates[index]);
+        mark[index] = 1;
+        dfs_combinationSum2(candidates, target, index+1, cur+candidates[index], mark);
+        mark[index] = 0;
+        temp_combinationSum2.pop_back();
+    }
+
+
+    dfs_combinationSum2(candidates, target, index+1, cur, mark);
+}
+
+vector<vector<int>> Solution::combinationSum2(vector<int> &candidates, int target) {
+    int n = candidates.size();
+    sort(candidates.begin(), candidates.end());
+    vector<int> mark(n);
+    dfs_combinationSum2(candidates, target, 0, 0, mark);
+//    for (int i = 0; i < ans_combinationSum2.size(); ++i) {
+//        for (int j = 0; j < ans_combinationSum2[i].size(); ++j) {
+//            cout << ans_combinationSum2[i][j] << " ";
+//        }
+//        cout << endl;
+//    }
+    return ans_combinationSum2;
+}
+
+int Solution::lengthOfLIS(vector<int> &nums) {
+    int len = 1, n = (int)nums.size();
+    if (n == 0) {
+        return 0;
+    }
+    vector<int> d(n + 1, 0);
+    d[len] = nums[0];
+    for (int i = 1; i < n; ++i) {
+        if (nums[i] > d[len]) {
+            d[++len] = nums[i];
+        } else {
+            int l = 1, r = len, pos = 0; // 如果找不到说明所有的数都比 nums[i] 大，此时要更新 d[1]，所以这里将 pos 设为 0
+            while (l <= r) {
+                int mid = (l + r) >> 1;
+                if (d[mid] < nums[i]) {
+                    pos = mid;
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }
+            d[pos + 1] = nums[i];
+        }
+    }
+    return len;
+}
+

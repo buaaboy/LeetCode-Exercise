@@ -170,6 +170,10 @@ public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target); // LeetCode 39
 
     int findKthNumber(int n, int k); // LeetCode 440
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target); // LeetCode 40
+
+    int lengthOfLIS(vector<int>& nums); // LeetCode 300
 };
 
 

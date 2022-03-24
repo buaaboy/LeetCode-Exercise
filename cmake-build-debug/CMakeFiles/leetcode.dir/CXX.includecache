@@ -6,6 +6,24 @@
 
 #IncludeRegexTransform: 
 
+/Users/boy/CLionProjects/leetcode/Solution.cpp
+iostream
+-
+queue
+-
+Solution.h
+/Users/boy/CLionProjects/leetcode/Solution.h
+vector
+/Users/boy/CLionProjects/leetcode/vector
+string
+/Users/boy/CLionProjects/leetcode/string
+map
+/Users/boy/CLionProjects/leetcode/map
+unordered_set
+/Users/boy/CLionProjects/leetcode/unordered_set
+set
+/Users/boy/CLionProjects/leetcode/set
+
 /Users/boy/CLionProjects/leetcode/Solution.h
 vector
 -
