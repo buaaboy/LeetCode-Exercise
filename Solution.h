@@ -174,6 +174,12 @@ public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target); // LeetCode 40
 
     int lengthOfLIS(vector<int>& nums); // LeetCode 300
+
+    int trailingZeroes(int n); // LeetCode 172
+
+    int findNumberOfLIS(vector<int>& nums); // LeetCode 673
+
+    int longestCommonSubsequence(string text1, string text2); // LeetCode 1143
 };
 
 

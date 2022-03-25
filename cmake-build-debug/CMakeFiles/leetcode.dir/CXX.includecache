@@ -28,15 +28,3 @@ set
 vector
 -
 
-/Users/boy/CLionProjects/leetcode/main.cpp
-iostream
--
-algorithm
-/Users/boy/CLionProjects/leetcode/algorithm
-string
-/Users/boy/CLionProjects/leetcode/string
-sstream
-/Users/boy/CLionProjects/leetcode/sstream
-Solution.h
-/Users/boy/CLionProjects/leetcode/Solution.h
-

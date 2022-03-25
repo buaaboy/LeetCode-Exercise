@@ -1838,3 +1838,70 @@ int Solution::lengthOfLIS(vector<int> &nums) {
     return len;
 }
 
+int Solution::trailingZeroes(int n) {
+    return n / 5 + n / 25 + n / 125 + n / 625 + n / 3125;
+}
+
+int Solution::findNumberOfLIS(vector<int> &nums) {
+    // method1 dp
+
+    int n = nums.size();
+    vector<int> dp(n);
+    vector<int> count(n);
+    dp[0] = 1;
+    count[0] = 1;
+    int maxLen = 0;
+    int ans = 0;
+    for (int i = 0; i < n; ++i) {
+        dp[i]=1;
+        count[i]=1;
+        for (int j = 0; j < i; ++j) {
+            if (nums[j] < nums[i]) {
+                if (dp[i] < dp[j] + 1) {
+                    dp[i] = dp[j] + 1;
+                    count[i] = count[j];
+                } else if (dp[i] == dp[j] + 1) {
+                    count[i]+=count[j];
+                }
+            }
+        }
+        // 最后的返回值应该是所有最大长度的所有count的总和
+        if (dp[i] > maxLen) {
+            maxLen = dp[i];
+            ans = count[i];
+        } else if (dp[i] == maxLen) {
+            ans += count[i];
+        }
+    }
+    return ans;
+}
+
+int Solution::longestCommonSubsequence(string text1, string text2) {
+    int l1 = text1.size(), l2 = text2.size();
+//    vector<vector<int>> dp(l1+1, vector<int>(l2+1));
+//    for (int i = 1; i <= l1; ++i) {
+//        dp[i][1] = dp[i-1][1];
+//        for (int j = 1; j <= l2; ++j) {
+//
+//            if (text1[i-1] == text2[j-1]) {
+//                dp[i][j] = dp[i-1][j-1] + 1;
+//            } else {
+//                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+//            }
+//        }
+//    }
+//    return dp[l1][l2];
+
+    vector<vector<int>> dp(2, vector<int>(l2+1));
+    for (int i = 1; i <= l1; ++i) {
+        for (int j = 1; j <= l2; ++j) {
+            if (text1[i-1] == text2[j-1]) {
+                dp[(i+1)%2][j] = dp[i%2][j-1] + 1;
+            } else {
+                dp[(i+1)%2][j] = max(dp[i%2][j], dp[(i+1)%2][j-1]);
+            }
+        }
+    }
+    return max(dp[0][l2], dp[1][l2]);
+}
+
