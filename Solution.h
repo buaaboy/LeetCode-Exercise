@@ -180,6 +180,18 @@ public:
     int findNumberOfLIS(vector<int>& nums); // LeetCode 673
 
     int longestCommonSubsequence(string text1, string text2); // LeetCode 1143
+
+    int maxConsecutiveAnswers(string answerKey, int k); // LeetCode 2024
+
+    vector<string> generateParenthesis(int n); // LeetCode Offer II 085
+
+    vector<int> countBits(int n); // LeetCode 338
+
+    string convert(string s, int numRows); // LeetCode 6
+
+    int romanToInt(string s); // LeetCode 13
+
+    bool canReorderDoubled(vector<int>& arr); // LeetCode 954
 };
 
 

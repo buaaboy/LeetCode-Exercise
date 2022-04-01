@@ -1905,3 +1905,188 @@ int Solution::longestCommonSubsequence(string text1, string text2) {
     return max(dp[0][l2], dp[1][l2]);
 }
 
+int getCount_maxConsecutive(char c, string answerKey, int k) {
+    int len = answerKey.size();
+    int maxLen = 0;
+    for (int i = 0, j = 0, sum = 0; i < len; ++i) {
+        if (answerKey[i] != c) {
+            sum++;
+        }
+        while (k < sum) {
+            if (answerKey[j] != c) {
+                sum--;
+            }
+            j++;
+        }
+        maxLen = max(maxLen, i-j+1);
+    }
+    return maxLen;
+}
+
+int Solution::maxConsecutiveAnswers(string answerKey, int k) {
+    return max(getCount_maxConsecutive('F', answerKey, k), getCount_maxConsecutive('T', answerKey, k));
+}
+
+vector<string> ans_generateParenthesis;
+string temp_generateParenthesis;
+
+void dfs_generateParenthesis(int leftNum, int rightNum, int n) {
+    if (leftNum == n && rightNum == n) {
+        ans_generateParenthesis.emplace_back(temp_generateParenthesis);
+        return;
+    }
+    if (leftNum < n) {
+        temp_generateParenthesis.push_back('(');
+        dfs_generateParenthesis(leftNum+1, rightNum, n);
+        temp_generateParenthesis.pop_back();
+    }
+
+    if (leftNum > rightNum) {
+        temp_generateParenthesis.push_back(')');
+        dfs_generateParenthesis(leftNum, rightNum+1, n);
+        temp_generateParenthesis.pop_back();
+    }
+}
+
+vector<string> Solution::generateParenthesis(int n) {
+    dfs_generateParenthesis(0, 0, n);
+    for (int i = 0; i < ans_generateParenthesis.size(); ++i) {
+        cout << ans_generateParenthesis[i] << endl;
+    }
+    return ans_generateParenthesis;
+}
+
+vector<int> Solution::countBits(int n) {
+    /*
+     * 0
+     * 1
+     * 10
+     * 11
+     * 100
+     * 101
+     * 110
+     * 111
+     */
+    vector<int> ans(n);
+    for (int i = 0; i < n; ++i) {
+        if (i % 2 == 1) {
+            ans[i] = ans[i-1] + 1;
+        } else {
+            ans[i] = ans[i/2];
+        }
+    }
+    return ans;
+}
+
+string Solution::convert(string s, int numRows) {
+    // 0 4 8
+    // 1 3 5 7
+    // 2 6 10
+
+    // 0 6 12
+    // 1 5 7 11
+    // 2 4 8 10
+    // 3 9 15
+    int len = s.size();
+    int step = 2 * (numRows - 1);
+    if (step == 0) step++;
+    string newstr = "";
+    for (int i = 0; i < numRows; ++i) {
+        if (i == 0 || i == numRows - 1) {
+            for (int j = i; j < len; j+=step) {
+                newstr.push_back(s[j]);
+            }
+        } else {
+            for (int j = 0; j < len; j+=step) {
+                if (j+i < len) {
+                    newstr.push_back(s[j+i]);
+                }
+                if (j+step-i < len) {
+                    newstr.push_back(s[j+step-i]);
+                }
+            }
+        }
+
+    }
+    return newstr;
+}
+
+int Solution::romanToInt(string s) {
+    int len = s.size();
+    int sum = 0;
+    for (int i = 0; i < len; ++i) {
+        if (s[i] == 'I') {
+            if (i+1 < len && (s[i+1] == 'V' || s[i+1] == 'X')) {
+                if (s[i+1] == 'V') sum += 4;
+                if (s[i+1] == 'X') sum += 9;
+                i++;
+            } else {
+                sum += 1;
+            }
+        }
+
+        else if (s[i] == 'V') sum += 5;
+
+        else if (s[i] == 'X') {
+            if (i+1 < len && (s[i+1] == 'L' || s[i+1] == 'C')) {
+                if (s[i+1] == 'L') sum += 40;
+                if (s[i+1] == 'C') sum += 90;
+                i++;
+            } else {
+                sum += 10;
+            }
+        }
+
+        else if (s[i] == 'L') sum += 50;
+
+        else if (s[i] == 'C') {
+            if (i+1 < len && (s[i+1] == 'D' || s[i+1] == 'M')) {
+                if (s[i+1] == 'D') sum += 400;
+                if (s[i+1] == 'M') sum += 900;
+                i++;
+            } else {
+                sum += 100;
+            }
+        }
+
+        else if (s[i] == 'D') sum += 500;
+        else if (s[i] == 'M') sum += 1000;
+    }
+    return sum;
+}
+
+bool Solution::canReorderDoubled(vector<int> &arr) {
+    sort(arr.begin(), arr.end());
+    map<int, int> cntMap;
+    int len = arr.size();
+    for (int i = 0; i < len; ++i) {
+        if (cntMap.find(arr[i]) != cntMap.end()) {
+            cntMap[arr[i]]++;
+        } else {
+            cntMap.insert(pair<int, int>(arr[i], 1));
+        }
+    }
+    int sep=0;
+    int flag=0;
+    while(sep<len && arr[sep] <= 0) sep++;
+    for (int i = sep; i < len; ++i) {
+        if (i>=len) break;
+        if (cntMap.find(arr[i]) != cntMap.end() && cntMap.find(2*arr[i]) != cntMap.end()) {
+            cntMap[arr[i]]--;
+            cntMap[2*arr[i]]--;
+            if (cntMap[arr[i]] == 0) cntMap.erase(cntMap.find(arr[i]));
+            if (cntMap[2*arr[i]] == 0) cntMap.erase(cntMap.find(2*arr[i]));
+        }
+    }
+    for (int i = sep-1; i >= 0; --i) {
+        if (i<0) break;
+        if (cntMap.find(arr[i]) != cntMap.end() && cntMap.find(2*arr[i]) != cntMap.end()) {
+            cntMap[arr[i]]--;
+            cntMap[2*arr[i]]--;
+            if (cntMap[arr[i]] == 0) cntMap.erase(cntMap.find(arr[i]));
+            if (cntMap[2*arr[i]] == 0) cntMap.erase(cntMap.find(2*arr[i]));
+        }
+    }
+    return cntMap.size() == 0;
+}
+
