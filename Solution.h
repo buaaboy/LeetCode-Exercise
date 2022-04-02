@@ -192,6 +192,8 @@ public:
     int romanToInt(string s); // LeetCode 13
 
     bool canReorderDoubled(vector<int>& arr); // LeetCode 954
+
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2); // LeetCode 4
 };
 
 
