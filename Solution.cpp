@@ -77,10 +77,10 @@ void Solution::rotate(vector<int> &nums, int k) {
      */
 
     // method2
-    int n = nums.size();
-    reverse(nums.begin(), nums.end());
-    reverse(nums.begin(), nums.begin() + k % n);
-    reverse(nums.begin() + k % n + 1, nums.end());
+//    int n = nums.size();
+//    reverse(nums.begin(), nums.end());
+//    reverse(nums.begin(), nums.begin() + k % n);
+//    reverse(nums.begin() + k % n + 1, nums.end());
 }
 
 // LC 917
@@ -2131,4 +2131,67 @@ double Solution::findMedianSortedArrays(vector<int> &nums1, vector<int> &nums2) 
         + getKthElement_findMedianSortedArrays(nums1, nums2, len / 2 + 1)) / 2.0;
     }
 }
+
+char Solution::nextGreatestLetter(vector<char> &letters, char target) {
+    if(target > letters.back()) return letters[0];
+    int len = letters.size();
+    int begin = 0, end = len-1;
+    while(begin < end) {
+        int mid = begin + (end - begin) / 2;
+        if (letters[mid] <= target) {
+            begin = mid + 1;
+        } else {
+            end = mid;
+        }
+    }
+    return letters[begin];
+}
+
+int Solution::reverse(int x) {
+    int flag = x >= 0 ? 1 : 0;
+    x = abs(x);
+    int new_x = 0, temp = 0;
+    while(x > 0) {
+        temp = x % 10;
+        if (new_x > INT_MAX / 10) {
+            new_x = 0;
+            break;
+        }
+        new_x *= 10;
+        if (new_x > INT_MAX - temp) {
+            new_x = 0;
+            break;
+        }
+        new_x += temp;
+        x /= 10;
+//        if(flag == 1 && new_x < 0) {
+//            new_x = 0;
+//            break;
+//        }
+//        if(flag == 0 && (new_x == INT_MAX || new_x < 0)) {
+//            new_x = 0;
+//            break;
+//        }
+    }
+    return flag ? new_x : -new_x;
+}
+
+int Solution::countPrimeSetBits(int left, int right) {
+    vector<int> ans {2,3,5,7,11,13,17,19,23,29,31};
+    unordered_set<int> ans_set {2,3,5,7,11,13,17,19,23,29,31};
+    int sum = 0;
+    for (int i = left; i <= right; ++i) {
+        int x = i;
+        x = (x & 0x55555555) + ((x >> 1) & 0x55555555);
+        x = (x & 0x33333333) + ((x >> 2) & 0x33333333);
+        x = (x & 0x0f0f0f0f) + ((x >> 4) & 0x0f0f0f0f);
+        x = (x & 0x00ff00ff) + ((x >> 8) & 0x00ff00ff);
+        x = (x & 0x0000ffff) + ((x >> 16) & 0x0000ffff);
+        if (ans_set.find(x) != ans_set.end()) {
+            sum++;
+        }
+    }
+    return sum;
+}
+
 

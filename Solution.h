@@ -194,6 +194,12 @@ public:
     bool canReorderDoubled(vector<int>& arr); // LeetCode 954
 
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2); // LeetCode 4
+
+    char nextGreatestLetter(vector<char>& letters, char target); // LeetCode 744
+
+    int reverse(int x); // LeetCode 7
+
+    int countPrimeSetBits(int left, int right); // LeetCode 762
 };
 
 
